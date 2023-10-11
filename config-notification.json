@@ -8,7 +8,7 @@
                 "subnet",
                 "relayer"
             ],
-            "url": "https://hooks.slack.com/services/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",
+            "url": "{{SLACK_URL}}",
             "tag": [
                 {
                     "name": "Liam Lai",
