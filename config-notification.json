@@ -1,0 +1,60 @@
+{
+    "slack": [
+        {
+            "services": [
+                "mainnet",
+                "testnet",
+                "devnet",
+                "subnet",
+                "relayer"
+            ],
+            "url": "https://hooks.slack.com/services/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",
+            "tag": [
+                {
+                    "name": "Liam Lai",
+                    "userid": "U020M8RPPK5",
+                    "active": true
+                },
+                {
+                    "name": "Wanwiset Peerapatanapokin",
+                    "userid": "U05B2A5GL4D",
+                    "active": false
+                },
+                {
+                    "name": "fishermanymc",
+                    "userid": "U020E8Z9T38",
+                    "active": false
+                }
+            ]
+        }
+    ],
+    "telegram": [
+        {
+            "services": [
+                "mainnet",
+                "testnet",
+                "devnet",
+                "subnet",
+                "relayer"
+            ],
+            "channel": [
+                {
+                    "name": "Liam Lai",
+                    "chatid": 1959630775,
+                    "active": true
+                },
+                {
+                    "name": "XDC 2.0 DevTalk | XDC Network",
+                    "chatid": -704611041,
+                    "active": false
+                },
+                {
+                    "name": "XDC Anil Chinchawale️",
+                    "chatid": 353201749,
+                    "active": false
+                }
+            ],
+            "tag": ""
+        }
+    ]
+}

@@ -1,0 +1,69 @@
+{
+    "monitor": {
+        "fetchBlockNumber": 50
+    },
+    "rules": {
+        "masternode" : {
+            "rate": 0.9,
+            "active": true
+        },
+        "epoch": {
+            "rate": 0.9,
+            "active": true
+        },
+        "minetime": {
+            "rate": 0.2,
+            "active": true
+        },
+        "contiguousRounds": {
+            "rate": 0.2,
+            "active": true
+        },
+        "confirmed": {
+            "rate": 10,
+            "active": true
+        }
+    },
+    "blockchain": [
+        {
+            "name": "subnet",
+            "rpc1": "https://devnetstats.apothem.network/subnet",
+            "stats": "https://xdc-subnet-ui.hashlabs.cc/",
+            "mineTime": 2,
+            "masternode": 3,
+            "test": "xxx.sh",
+            "active": true,
+            "hotstuff": true
+        },
+        {
+            "name": "devnet",
+            "rpc1": "https://devnetstats.apothem.network/devnet",
+            "stats": "http://devnet.apothem.network/#stats",
+            "mineTime": 2,
+            "masternode": 108,
+            "test": "xxx.sh",
+            "active": true,
+            "hotstuff": true
+        },
+        {
+            "name": "testnet",
+            "rpc1": "https://erpc.apothem.network/",
+            "stats": "https://apothem.network/",
+            "mineTime": 2,
+            "masternode": 10,
+            "test": "xxx.sh",
+            "active": true,
+            "hotstuff": false
+        },
+        {
+            "name": "mainnet",
+            "rpc1": "https://xinfin.network/",
+            "stats": "https://rpc.xinfin.network/",
+            "mineTime": 2,
+            "masternode": 10,
+            "test": "xxx.sh",
+            "active": false,
+            "hotstuff": false
+        }
+    ]
+}
