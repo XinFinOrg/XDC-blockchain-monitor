@@ -3,7 +3,7 @@ package service
 import (
 	"fmt"
 
-	"github.com/liam-lai/xinfin-monitor/types"
+	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
 func FetchEpoch(config *types.Config, bc *types.Blockchain) error {

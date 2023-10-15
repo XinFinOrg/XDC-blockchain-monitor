@@ -1,4 +1,4 @@
-module github.com/liam-lai/xinfin-monitor
+module github.com/XinFinOrg/XDC-blockchain-monitor
 
 go 1.21.0
 
@@ -16,6 +16,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.14.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.4 // indirect
 	github.com/kr/pretty v0.1.0 // indirect

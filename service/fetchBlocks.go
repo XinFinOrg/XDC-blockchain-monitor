@@ -5,7 +5,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/liam-lai/xinfin-monitor/types"
+	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
 func FetchBlocks(config *types.Config, bc *types.Blockchain) error {

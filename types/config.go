@@ -51,8 +51,8 @@ type Contract struct {
 }
 
 type Notification struct {
-	Slack    []SlackNotification    `json:"slack"`
-	Telegram []TelegramNotification `json:"telegram"`
+	Slack    []SlackNotification  `json:"slack"`
+	Telegram TelegramNotification `json:"telegram"`
 }
 
 type SlackNotification struct {
@@ -68,6 +68,7 @@ type SlackUserTag struct {
 }
 
 type TelegramNotification struct {
+	Token    string   `json:"token"`
 	Services []string `json:"services"`
 	Channel  []struct {
 		Name   string `json:"name"`

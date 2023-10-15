@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/liam-lai/xinfin-monitor/types"
+	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
 func Hotstuff(config *types.Config, bc *types.Blockchain) error {

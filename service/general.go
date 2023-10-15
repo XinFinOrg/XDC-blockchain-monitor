@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/liam-lai/xinfin-monitor/types"
+	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
 func CheckMineTime(config *types.Config, bc *types.Blockchain) error {

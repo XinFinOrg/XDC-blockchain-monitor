@@ -3,7 +3,7 @@ package service
 import (
 	"fmt"
 
-	"github.com/liam-lai/xinfin-monitor/types"
+	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
 var Rate = 0.9

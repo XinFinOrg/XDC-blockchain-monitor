@@ -8,7 +8,7 @@
                 "subnet",
                 "relayer"
             ],
-            "url": "{{SLACK_URL}}",
+            "url": "from env",
             "tag": [
                 {
                     "name": "Liam Lai",
@@ -18,43 +18,42 @@
                 {
                     "name": "Wanwiset Peerapatanapokin",
                     "userid": "U05B2A5GL4D",
-                    "active": false
+                    "active": true
                 },
                 {
                     "name": "fishermanymc",
                     "userid": "U020E8Z9T38",
-                    "active": false
+                    "active": true
                 }
             ]
         }
     ],
-    "telegram": [
-        {
-            "services": [
-                "mainnet",
-                "testnet",
-                "devnet",
-                "subnet",
-                "relayer"
-            ],
-            "channel": [
-                {
-                    "name": "Liam Lai",
-                    "chatid": 1959630775,
-                    "active": true
-                },
-                {
-                    "name": "XDC 2.0 DevTalk | XDC Network",
-                    "chatid": -704611041,
-                    "active": false
-                },
-                {
-                    "name": "XDC Anil Chinchawale️",
-                    "chatid": 353201749,
-                    "active": false
-                }
-            ],
-            "tag": ""
-        }
-    ]
+    "telegram": {
+        "token": "from env",
+        "services": [
+            "mainnet",
+            "testnet",
+            "devnet",
+            "subnet",
+            "relayer"
+        ],
+        "channel": [
+            {
+                "name": "Liam Lai",
+                "chatid": 1959630775,
+                "active": true
+            },
+            {
+                "name": "XDC 2.0 DevTalk | XDC Network",
+                "chatid": -704611041,
+                "active": false
+            },
+            {
+                "name": "XDC Anil Chinchawale️",
+                "chatid": 353201749,
+                "active": false
+            }
+        ],
+        "tag": ""
+    }
 }

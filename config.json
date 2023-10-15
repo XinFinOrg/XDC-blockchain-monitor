@@ -16,7 +16,7 @@
             "active": true
         },
         "contiguousRounds": {
-            "rate": 0.2,
+            "rate": 0.1,
             "active": true
         },
         "confirmed": {

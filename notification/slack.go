@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/liam-lai/xinfin-monitor/types"
+	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
 func SendToSlack(config *types.Config, bc *types.Blockchain, message string) {

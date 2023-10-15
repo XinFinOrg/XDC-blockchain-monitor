@@ -6,29 +6,25 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/liam-lai/xinfin-monitor/types"
-)
-
-const (
-	BotToken = "" // TODO READ From .env
+	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
 func SendToTelegram(config *types.Config, bc *types.Blockchain, message string) {
 	// Send notification to Slack
-	for _, teleConfig := range config.Notifications.Telegram {
-		if contains(teleConfig.Services, bc.Name) {
-			message = "*" + message + "*\n" + GetMessageForSlack(bc)
-			for _, channel := range teleConfig.Channel {
-				if channel.Active {
-					sendMessage(channel.ChatID, message)
-				}
+	teleConfig := config.Notifications.Telegram
+	if contains(teleConfig.Services, bc.Name) {
+		message = "*" + message + "*\n" + GetMessageForSlack(bc)
+		for _, channel := range teleConfig.Channel {
+			if channel.Active {
+				sendMessage(channel.ChatID, message, config.Notifications.Telegram.Token)
 			}
 		}
 	}
+
 }
 
-func sendMessage(chatID int, message string) error {
-	endpoint := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", BotToken)
+func sendMessage(chatID int, message string, token string) error {
+	endpoint := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage", token)
 
 	data := url.Values{}
 	data.Set("chat_id", strconv.Itoa(chatID))

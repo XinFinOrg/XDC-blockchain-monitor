@@ -6,12 +6,14 @@ import (
 	"os"
 	"sync"
 
-	"github.com/liam-lai/xinfin-monitor/cronjob"
-	"github.com/liam-lai/xinfin-monitor/routes"
-	"github.com/liam-lai/xinfin-monitor/types"
+	"github.com/XinFinOrg/XDC-blockchain-monitor/cronjob"
+	"github.com/XinFinOrg/XDC-blockchain-monitor/routes"
+	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	env()
 	config := config()
 
 	// Setup the cronjob using the parsed configuration
@@ -20,6 +22,13 @@ func main() {
 
 	r := routes.SetupRouter()
 	r.Run(":8080")
+}
+func env() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		// Handle error if the .env file is not found or has errors.
+		panic("Error loading .env file")
+	}
 }
 
 func config() types.Config {
@@ -53,5 +62,9 @@ func config() types.Config {
 		config.Blockchains[i].BlockCacheLock = &sync.Mutex{}
 		config.Blockchains[i].FetchBlockNumber = config.Monitors.FetchBlockNumber
 	}
+
+	// Read from env
+	config.Notifications.Slack[0].Url = os.Getenv("SLACK_BOT_URL")
+	config.Notifications.Telegram.Token = os.Getenv("TELEGRAM_BOT_TOKEN")
 	return config
 }
