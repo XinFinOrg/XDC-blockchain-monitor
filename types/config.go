@@ -57,7 +57,8 @@ type Notification struct {
 
 type SlackNotification struct {
 	Services []string       `json:"services"`
-	Url      string         `json:"url"`
+	Token    string         `json:"token"`
+	Channel  string         `json:"channel"`
 	Tag      []SlackUserTag `json:"tag"`
 }
 

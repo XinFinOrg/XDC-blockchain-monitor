@@ -37,7 +37,7 @@ func CheckMineTime(config *types.Config, bc *types.Blockchain) error {
 	}
 
 	if float64(violations)/float64(len(blockCache)) > config.Rules.Minetime.Rate {
-		return fmt.Errorf("more than %f%% of the blocks have inconsistent mining times", config.Rules.Minetime.Rate)
+		return fmt.Errorf("more than %d of the blocks have inconsistent mining times", violations)
 	}
 
 	// Total Time

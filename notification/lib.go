@@ -1,11 +1,73 @@
 package notification
 
 import (
+	"encoding/json"
 	"fmt"
 	"reflect"
 
 	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
+
+func buildMessage(title string, msg string, channel string) SlackMessage {
+	message := SlackMessage{
+		Channel: channel,
+		Text:    "Title not used",
+		Blocks: []Block{
+			{
+				Type: "header",
+				Text: &Text{
+					Type:  "plain_text",
+					Text:  title,
+					Emoji: true,
+				},
+			},
+			{
+				Type: "section",
+				Fields: []Field{
+					{
+						Type: "mrkdwn",
+						Text: msg,
+					},
+				},
+			},
+			{
+				Type: "actions",
+				Elements: []Element{
+					{
+						Type: "button",
+						Text: Text{
+							Type:  "plain_text",
+							Text:  "Acknowledge",
+							Emoji: true,
+						},
+						Style: "primary",
+						Value: "acknowledge_button_click",
+					},
+					{
+						Type: "button",
+						Text: Text{
+							Type:  "plain_text",
+							Text:  "Ignore",
+							Emoji: true,
+						},
+						Style: "danger",
+						Value: "ignore_button_click",
+					},
+				},
+			},
+		},
+	}
+
+	jsonString, err := json.Marshal(message)
+	if err != nil {
+		panic(err)
+	}
+
+	// Print the JSON string
+	fmt.Println(string(jsonString))
+
+	return message
+}
 
 func contains(s []string, str string) bool {
 	for _, v := range s {

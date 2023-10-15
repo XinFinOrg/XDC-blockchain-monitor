@@ -64,7 +64,7 @@ func config() types.Config {
 	}
 
 	// Read from env
-	config.Notifications.Slack[0].Url = os.Getenv("SLACK_BOT_URL")
+	config.Notifications.Slack[0].Token = os.Getenv("SLACK_BOT_TOKEN")
 	config.Notifications.Telegram.Token = os.Getenv("TELEGRAM_BOT_TOKEN")
 	return config
 }

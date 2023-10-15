@@ -8,7 +8,8 @@
                 "subnet",
                 "relayer"
             ],
-            "url": "from env",
+            "channel": "C057FGW80SD",
+            "token": "from env",
             "tag": [
                 {
                     "name": "Liam Lai",
@@ -23,7 +24,7 @@
                 {
                     "name": "fishermanymc",
                     "userid": "U020E8Z9T38",
-                    "active": true
+                    "active": false
                 }
             ]
         }
