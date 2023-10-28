@@ -28,7 +28,7 @@ func masternode(config *types.Config, bc *types.Blockchain) error {
 
 	// Check if the number of masternodes is less than Rate of 108
 	if numberOfMasternodes < int(Rate*float64(bc.Masternode)) {
-		return fmt.Errorf("number of masternodes (%d) is less than %f%% of 108", numberOfMasternodes, Rate)
+		return fmt.Errorf("number of masternodes (%d) are too low, current total is %d", numberOfMasternodes, bc.Masternode)
 	}
 
 	return nil

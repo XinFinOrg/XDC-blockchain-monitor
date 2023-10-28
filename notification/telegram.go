@@ -9,8 +9,9 @@ import (
 	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
-func SendToTelegram(config *types.Config, bc *types.Blockchain, message string) {
+func SendToTelegram(config *types.Config, bc *types.Blockchain, err error) {
 	// Send notification to Slack
+	message := err.Error()
 	teleConfig := config.Notifications.Telegram
 	if contains(teleConfig.Services, bc.Name) {
 		message = "*" + message + "*\n" + GetMessageForSlack(bc)

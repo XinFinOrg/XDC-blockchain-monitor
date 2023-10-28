@@ -32,29 +32,38 @@ func sendRequest(rpcURL string, requestData interface{}, responseType RPCRespons
 	}
 
 	attempts := 0
-	for attempts < maxAttempts {
+	for {
 		resp, err := http.Post(rpcURL, "application/json", bytes.NewBuffer(jsonData))
-		if err != nil && attempts == maxAttempts-1 {
-			return fmt.Errorf("error making the RPC request: %w", err)
-		} else if err == nil {
-			defer resp.Body.Close()
-			body, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return fmt.Errorf("error reading response: %w", err)
+		if err != nil {
+			if attempts == maxAttempts-1 {
+				return fmt.Errorf("error making the RPC request: %w", err)
 			}
-
-			err = responseType.Unmarshal(body)
-			if err != nil {
-				return fmt.Errorf("error decoding RPC response: %w", err)
-			}
-
-			return nil
+			attempts++
+			log.Println("Retry Request", attempts)
+			time.Sleep(retryInterval)
+			continue
 		}
 
-		attempts++
-		log.Println("Retry Request", attempts)
-		time.Sleep(retryInterval)
-	}
+		defer resp.Body.Close()
+		if resp.StatusCode >= 400 {
+			if attempts == maxAttempts-1 {
+				return fmt.Errorf("error getting the RPC response, status code %d", resp.StatusCode)
+			}
+			attempts++
+			log.Println("Retry Request", attempts)
+			time.Sleep(retryInterval)
+			continue
+		}
 
-	return fmt.Errorf("max retries reached")
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return fmt.Errorf("error reading response: %w", err)
+		}
+
+		err = responseType.Unmarshal(body)
+		if err != nil {
+			return fmt.Errorf("error decoding RPC response: %w", err)
+		}
+		return nil
+	}
 }

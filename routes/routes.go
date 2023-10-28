@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/XinFinOrg/XDC-blockchain-monitor/data"
 	"github.com/XinFinOrg/XDC-blockchain-monitor/notification"
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +14,7 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.POST("/slack/button-click", handleButtonClick)
-
+	r.GET("/blockCache", getBlockCache)
 	r.GET("/hello", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "hello world",
@@ -22,6 +23,18 @@ func SetupRouter() *gin.Engine {
 
 	return r
 }
+func getBlockCache(c *gin.Context) {
+	config := data.GetCurrentConfig()
+	network := c.Query("network")
+	for _, i := range config.Blockchains {
+		if i.Name == network {
+			c.JSON(http.StatusOK, i.BlockCache)
+			return
+		}
+	}
+	c.JSON(http.StatusBadRequest, fmt.Sprintf("Network %s Not Found", network))
+}
+
 func handleButtonClick(c *gin.Context) {
 	// Parse the URL-encoded payload from Slack
 	payloadStr := c.DefaultPostForm("payload", "")

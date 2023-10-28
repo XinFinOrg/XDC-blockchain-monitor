@@ -1,30 +1,38 @@
 {
     "slack": [
         {
-            "services": [
-                "mainnet",
-                "testnet",
-                "devnet",
-                "subnet",
-                "relayer"
-            ],
             "channel": "C057FGW80SD",
             "token": "from env",
             "tag": [
                 {
                     "name": "Liam Lai",
                     "userid": "U020M8RPPK5",
-                    "active": true
+                    "active": true,
+                    "services": [
+                        "mainnet",
+                        "testnet",
+                        "devnet"
+                    ]
                 },
                 {
                     "name": "Wanwiset Peerapatanapokin",
                     "userid": "U05B2A5GL4D",
-                    "active": true
+                    "active": true,
+                    "services": [
+                        "mainnet",
+                        "subnet",
+                        "relayer"
+                    ]
                 },
                 {
                     "name": "fishermanymc",
                     "userid": "U020E8Z9T38",
-                    "active": false
+                    "active": false,
+                    "services": [
+                        "mainnet",
+                        "testnet",
+                        "subnet"
+                    ]
                 }
             ]
         }

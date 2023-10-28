@@ -1,7 +1,6 @@
 package notification
 
 import (
-	"encoding/json"
 	"fmt"
 	"reflect"
 
@@ -57,14 +56,6 @@ func buildMessage(title string, msg string, channel string) SlackMessage {
 			},
 		},
 	}
-
-	jsonString, err := json.Marshal(message)
-	if err != nil {
-		panic(err)
-	}
-
-	// Print the JSON string
-	fmt.Println(string(jsonString))
 
 	return message
 }

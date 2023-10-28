@@ -56,16 +56,16 @@ type Notification struct {
 }
 
 type SlackNotification struct {
-	Services []string       `json:"services"`
-	Token    string         `json:"token"`
-	Channel  string         `json:"channel"`
-	Tag      []SlackUserTag `json:"tag"`
+	Token   string         `json:"token"`
+	Channel string         `json:"channel"`
+	Tag     []SlackUserTag `json:"tag"`
 }
 
 type SlackUserTag struct {
-	Name   string `json:"name"`
-	UserID string `json:"userid"`
-	Active bool   `json:"active"`
+	Name     string   `json:"name"`
+	UserID   string   `json:"userid"`
+	Active   bool     `json:"active"`
+	Services []string `json:"services"`
 }
 
 type TelegramNotification struct {

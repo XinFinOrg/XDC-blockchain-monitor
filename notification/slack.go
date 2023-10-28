@@ -5,29 +5,39 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 
 	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
+	"github.com/slack-go/slack"
 )
 
-func SendToSlack(config *types.Config, bc *types.Blockchain, title string) {
+func SendToSlack(config *types.Config, bc *types.Blockchain, err error) {
 	// Send notification to Slack
 	for _, slackConfig := range config.Notifications.Slack {
-		if contains(slackConfig.Services, bc.Name) {
-			details := GetMessageForSlack(bc)
-			send(title, details, slackConfig)
+		details := GetMessageForSlack(bc)
+		title := err.Error()
+
+		send(bc.Name, title, details, slackConfig)
+		if customErr, ok := err.(*types.ErrorMonitor); ok {
+			SendDebugMsg(title, customErr.Details, slackConfig)
 		}
 	}
 }
 
-func send(title string, details string, slackConfig types.SlackNotification) error {
+func send(service string, title string, details string, slackConfig types.SlackNotification) error {
 	tags := ""
 	details = details + "\n"
 	for _, v := range slackConfig.Tag {
-		if v.Active {
+		if v.Active && contains(v.Services, service) {
 			tags += fmt.Sprintf(" <@%s>", v.UserID)
 		}
+	}
+
+	// No one wants to sub this service
+	if len(tags) == 0 {
+		return nil
 	}
 	// Create the payload with the attachment.
 
@@ -64,30 +74,54 @@ func send(title string, details string, slackConfig types.SlackNotification) err
 		return fmt.Errorf("failed to send notification to Slack. StatusCode: %d, Response: %s", resp.StatusCode, body)
 	}
 
-	// Parse the JSON response
-	var slackResponse map[string]interface{}
-	err = json.NewDecoder(resp.Body).Decode(&slackResponse)
-	if err != nil {
-		return err
-	}
+	/*
+		// Parse the JSON response
+		var slackResponse map[string]interface{}
+		err = json.NewDecoder(resp.Body).Decode(&slackResponse)
+		if err != nil {
+			return err
+		}
 
-	// Check if the request was successful
-	if slackResponse["ok"].(bool) {
-		// Request was successful, you can access other fields in slackResponse as needed
-		ts := slackResponse["ts"].(string)
-		channel := slackResponse["channel"].(string)
-		message := slackResponse["message"].(map[string]interface{})
-		//text := message["text"].(string)
-		//user := message["user"].(string)
+		// Check if the request was successful
+		if slackResponse["ok"].(bool) {
+			// Request was successful, you can access other fields in slackResponse as needed
+			ts := slackResponse["ts"].(string)
+			channel := slackResponse["channel"].(string)
+			message := slackResponse["message"].(map[string]interface{})
+			//text := message["text"].(string)
+			//user := message["user"].(string)
 
-		// Handle the response data...
-		fmt.Printf("Message sent successfully. Timestamp: %s, Channel: %s, Message: %v\n", ts, channel, message)
-	} else {
-		// Request failed, handle the error...
-		fmt.Println("Slack API error:", slackResponse["error"].(string))
-	}
-
+			// Handle the response data...
+			fmt.Printf("Message sent successfully. Timestamp: %s, Channel: %s, Message: %v\n", ts, channel, message)
+		} else {
+			// Request failed, handle the error...
+			fmt.Println("Slack API error:", slackResponse["error"].(string))
+		}
+	*/
 	return nil
+}
+
+func SendDebugMsg(title string, msg string, slackConfig types.SlackNotification) {
+
+	channelID := slackConfig.Channel // Replace with your channel ID
+
+	api := slack.New(slackConfig.Token)
+
+	// Create a snippet
+	fileUploadParameters := slack.FileUploadParameters{
+		Channels: []string{channelID},
+		Content:  msg,
+		Filename: "debug.txt",
+		Title:    title,
+		Filetype: "text",
+	}
+
+	_, err := api.UploadFile(fileUploadParameters)
+	if err != nil {
+		log.Fatalf("Error uploading file: %v", err)
+	}
+
+	log.Println("Snippet uploaded successfully!")
 }
 
 func Update(slackResponse map[string]interface{}) error {
@@ -124,9 +158,7 @@ func Update(slackResponse map[string]interface{}) error {
 		fmt.Printf("Failed to update message in Slack. StatusCode: %d, Response: %s", resp.StatusCode, body)
 		// Handle the error accordingly
 		// You may want to return an error response or log the error.
-	} else {
-		// Message updated successfully
-		fmt.Println("Message updated successfully")
 	}
+
 	return nil
 }
