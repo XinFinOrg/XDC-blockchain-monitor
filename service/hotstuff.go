@@ -55,17 +55,21 @@ func checkContiguousRounds(config *types.Config, bc *types.Blockchain) *types.Er
 func confirmBlock(config *types.Config, bc *types.Blockchain) *types.ErrorMonitor {
 	latest := bc.LatestFetchedBlockNumber
 	fmt.Println("latest", latest, "Confirmed Rate", int(config.Rules.Confirmed.Rate))
-	if !bc.BlockCache[latest-int(config.Rules.Confirmed.Rate)].XDPoSBlockResult.Committed {
-		details := ""
-		for i := bc.LatestFetchedBlockNumber; i > bc.LatestFetchedBlockNumber-len(bc.BlockCache); i-- {
-			block := bc.BlockCache[i].XDPoSBlockResult
-			details += fmt.Sprintf("block: %d, round: %d, committed: %t, timestamp: %d\n", block.Number, block.Round, block.Committed, block.Timestamp)
+
+	// One committed, rest are committed
+	for i := latest; i >= latest-int(config.Rules.Confirmed.Rate); i-- {
+		if bc.BlockCache[i].XDPoSBlockResult.Committed {
+			return nil
 		}
-		e := &types.ErrorMonitor{
-			Title:   fmt.Sprintf("last %d blocks are not committed", int(config.Rules.Confirmed.Rate)),
-			Details: details,
-		}
-		return e
 	}
-	return nil
+	details := ""
+	for i := latest; i > latest-int(config.Rules.Confirmed.Rate); i-- {
+		block := bc.BlockCache[i].XDPoSBlockResult
+		details += fmt.Sprintf("block: %d, round: %d, committed: %t, timestamp: %d\n", block.Number, block.Round, block.Committed, block.Timestamp)
+	}
+	e := &types.ErrorMonitor{
+		Title:   fmt.Sprintf("last %d blocks are not committed", int(config.Rules.Confirmed.Rate)),
+		Details: details,
+	}
+	return e
 }
