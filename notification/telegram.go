@@ -13,7 +13,7 @@ func SendToTelegram(config *types.Config, bc *types.Blockchain, err error) {
 	// Send notification to Slack
 	message := err.Error()
 	teleConfig := config.Notifications.Telegram
-	if contains(teleConfig.Services, bc.Name) {
+	if contains(teleConfig.Environments, bc.Name) {
 		message = "*" + message + "*\n" + GetMessageForSlack(bc)
 		for _, channel := range teleConfig.Channel {
 			if channel.Active {

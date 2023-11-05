@@ -7,10 +7,43 @@ import (
 	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
-func buildMessage(title string, msg string, channel string) SlackMessage {
+func BuildDeployMessage(service, version, environment, tags, channel string) SlackMessage {
+	title := ":rocket: Deployment: " + environment
+	fmt.Println("tags", tags)
 	message := SlackMessage{
 		Channel: channel,
-		Text:    "Title not used",
+		Text:    title,
+		Blocks: []Block{
+			{
+				Type: "header",
+				Text: &Text{
+					Type:  "plain_text",
+					Text:  title,
+					Emoji: true,
+				},
+			},
+			{
+				Type: "section",
+				Fields: []Field{
+					{
+						Type: "mrkdwn",
+						Text: fmt.Sprintf("service: *%s* \nenvironment: *%s* \n version: `%s`", service, environment, version),
+					},
+					{
+						Type: "mrkdwn",
+						Text: tags,
+					},
+				},
+			},
+		},
+	}
+	return message
+}
+
+func buildAlertMessage(title string, msg string, channel string) SlackMessage {
+	message := SlackMessage{
+		Channel: channel,
+		Text:    title,
 		Blocks: []Block{
 			{
 				Type: "header",

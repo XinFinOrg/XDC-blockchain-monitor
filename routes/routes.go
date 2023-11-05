@@ -15,14 +15,16 @@ func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.POST("/slack/button-click", handleButtonClick)
 	r.GET("/blockCache", getBlockCache)
-	r.GET("/hello", func(c *gin.Context) {
+	r.POST("/deploy", handleDeploy)
+	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "hello world",
+			"message": "ok",
 		})
 	})
 
 	return r
 }
+
 func getBlockCache(c *gin.Context) {
 	config := data.GetCurrentConfig()
 	network := c.Query("network")
@@ -113,5 +115,4 @@ func handleButtonClick(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, slackResponse)
-	return
 }

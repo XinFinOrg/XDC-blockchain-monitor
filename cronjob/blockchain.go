@@ -33,7 +33,7 @@ func SetupCron(config *types.Config) *cron.Cron {
 				log.Println("Fetch Blocks Error: ", err, bc.Name)
 				if elapsedTime := time.Since(lastNotificationTime_FetchBlocks); elapsedTime > time.Hour {
 					notification.SendToTelegram(config, bc, err)
-					notification.SendToSlack(config, bc, err)
+					notification.AlertSendToSlack(config, bc, err)
 					lastNotificationTime_FetchBlocks = time.Now()
 				}
 			}
@@ -42,7 +42,7 @@ func SetupCron(config *types.Config) *cron.Cron {
 				if elapsedTime := time.Since(lastNotificationTime_CheckMineTime); elapsedTime > time.Hour {
 					log.Println("CheckMineTime Error: ", err, bc.Name)
 					notification.SendToTelegram(config, bc, err)
-					notification.SendToSlack(config, bc, err)
+					notification.AlertSendToSlack(config, bc, err)
 					lastNotificationTime_CheckMineTime = time.Now()
 				}
 			}
@@ -50,7 +50,7 @@ func SetupCron(config *types.Config) *cron.Cron {
 				log.Println("Hotstuff Error: ", err, bc.Name)
 				if elapsedTime := time.Since(lastNotificationTime_Hotstuff); elapsedTime > time.Hour {
 					notification.SendToTelegram(config, bc, err)
-					notification.SendToSlack(config, bc, err)
+					notification.AlertSendToSlack(config, bc, err)
 					lastNotificationTime_Hotstuff = time.Now()
 				}
 			}
@@ -59,7 +59,7 @@ func SetupCron(config *types.Config) *cron.Cron {
 			if err := service.FetchEpoch(config, bc); err != nil {
 				log.Println("FetchEpoch Error: ", err, bc.Name)
 				notification.SendToTelegram(config, bc, err)
-				notification.SendToSlack(config, bc, err)
+				notification.AlertSendToSlack(config, bc, err)
 			}
 		})
 	}

@@ -13,24 +13,24 @@ import (
 	"github.com/slack-go/slack"
 )
 
-func SendToSlack(config *types.Config, bc *types.Blockchain, err error) {
+func AlertSendToSlack(config *types.Config, bc *types.Blockchain, err error) {
 	// Send notification to Slack
 	for _, slackConfig := range config.Notifications.Slack {
 		details := GetMessageForSlack(bc)
 		title := err.Error()
 
-		send(bc.Name, title, details, slackConfig)
+		buildSlackMessage(bc.Name, title, details, slackConfig)
 		if customErr, ok := err.(*types.ErrorMonitor); ok {
 			SendDebugMsg(title, customErr.Details, slackConfig)
 		}
 	}
 }
 
-func send(service string, title string, details string, slackConfig types.SlackNotification) error {
+func buildSlackMessage(service string, title string, details string, slackConfig types.SlackNotification) error {
 	tags := ""
 	details = details + "\n"
 	for _, v := range slackConfig.Tag {
-		if v.Active && contains(v.Services, service) {
+		if v.Active && contains(v.Environments, service) {
 			tags += fmt.Sprintf(" <@%s>", v.UserID)
 		}
 	}
@@ -41,7 +41,11 @@ func send(service string, title string, details string, slackConfig types.SlackN
 	}
 	// Create the payload with the attachment.
 
-	payload := buildMessage(title, details+tags, slackConfig.Channel)
+	payload := buildAlertMessage(title, details+tags, slackConfig.AlertChannel)
+	err := Send(payload, slackConfig)
+	return err
+}
+func Send(payload SlackMessage, slackConfig types.SlackNotification) error {
 
 	jsonData, err := json.Marshal(payload)
 	if err != nil {
@@ -74,36 +78,12 @@ func send(service string, title string, details string, slackConfig types.SlackN
 		return fmt.Errorf("failed to send notification to Slack. StatusCode: %d, Response: %s", resp.StatusCode, body)
 	}
 
-	/*
-		// Parse the JSON response
-		var slackResponse map[string]interface{}
-		err = json.NewDecoder(resp.Body).Decode(&slackResponse)
-		if err != nil {
-			return err
-		}
-
-		// Check if the request was successful
-		if slackResponse["ok"].(bool) {
-			// Request was successful, you can access other fields in slackResponse as needed
-			ts := slackResponse["ts"].(string)
-			channel := slackResponse["channel"].(string)
-			message := slackResponse["message"].(map[string]interface{})
-			//text := message["text"].(string)
-			//user := message["user"].(string)
-
-			// Handle the response data...
-			fmt.Printf("Message sent successfully. Timestamp: %s, Channel: %s, Message: %v\n", ts, channel, message)
-		} else {
-			// Request failed, handle the error...
-			fmt.Println("Slack API error:", slackResponse["error"].(string))
-		}
-	*/
 	return nil
 }
 
 func SendDebugMsg(title string, msg string, slackConfig types.SlackNotification) {
 
-	channelID := slackConfig.Channel // Replace with your channel ID
+	channelID := slackConfig.AlertChannel // Replace with your channel ID
 
 	api := slack.New(slackConfig.Token)
 
