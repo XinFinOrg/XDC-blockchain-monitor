@@ -7,7 +7,7 @@ import (
 	"github.com/XinFinOrg/XDC-blockchain-monitor/types"
 )
 
-func BuildDeployMessage(service, version, environment, tags, channel string) SlackMessage {
+func BuildDeployMessage(service, version, environment, comment, tags, channel string) SlackMessage {
 	title := ":rocket: Deployment: " + environment
 	fmt.Println("tags", tags)
 	message := SlackMessage{
@@ -27,7 +27,7 @@ func BuildDeployMessage(service, version, environment, tags, channel string) Sla
 				Fields: []Field{
 					{
 						Type: "mrkdwn",
-						Text: fmt.Sprintf("service: *%s* \nenvironment: *%s* \n version: `%s`", service, environment, version),
+						Text: fmt.Sprintf("service: *%s* \nenvironment: *%s* \n version: `%s`\n comment: %s", service, environment, version, comment),
 					},
 					{
 						Type: "mrkdwn",

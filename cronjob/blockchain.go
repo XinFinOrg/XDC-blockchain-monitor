@@ -18,6 +18,11 @@ var lastNotificationTime_FetchBlocks time.Time
 var lastNotificationTime_CheckMineTime time.Time
 var lastNotificationTime_Hotstuff time.Time
 
+// Define counters for each type of error
+var errorCountFetchBlocks int
+var errorCountCheckMineTime int
+var errorCountHotstuff int
+
 func SetupCron(config *types.Config) *cron.Cron {
 	c := cron.New(cron.WithSeconds())
 
@@ -31,28 +36,45 @@ func SetupCron(config *types.Config) *cron.Cron {
 		c.AddFunc("@every 30s", func() {
 			if err := service.FetchBlocks(config, bc); err != nil {
 				log.Println("Fetch Blocks Error: ", err, bc.Name)
-				if elapsedTime := time.Since(lastNotificationTime_FetchBlocks); elapsedTime > time.Hour {
-					notification.SendToTelegram(config, bc, err)
-					notification.AlertSendToSlack(config, bc, err)
-					lastNotificationTime_FetchBlocks = time.Now()
+				errorCountFetchBlocks++
+				if errorCountFetchBlocks >= 3 {
+					if elapsedTime := time.Since(lastNotificationTime_FetchBlocks); elapsedTime > time.Hour {
+						notification.SendToTelegram(config, bc, err)
+						notification.AlertSendToSlack(config, bc, err)
+						lastNotificationTime_FetchBlocks = time.Now()
+						errorCountFetchBlocks = 0
+					}
 				}
+			} else {
+				errorCountFetchBlocks = 0
 			}
 			if err := service.CheckMineTime(config, bc); err != nil {
 				log.Println("CheckMineTime Error: ", err, bc.Name)
-				if elapsedTime := time.Since(lastNotificationTime_CheckMineTime); elapsedTime > time.Hour {
-					log.Println("CheckMineTime Error: ", err, bc.Name)
-					notification.SendToTelegram(config, bc, err)
-					notification.AlertSendToSlack(config, bc, err)
-					lastNotificationTime_CheckMineTime = time.Now()
+				errorCountCheckMineTime++
+				if errorCountCheckMineTime >= 3 {
+					if elapsedTime := time.Since(lastNotificationTime_CheckMineTime); elapsedTime > time.Hour {
+						notification.SendToTelegram(config, bc, err)
+						notification.AlertSendToSlack(config, bc, err)
+						lastNotificationTime_CheckMineTime = time.Now()
+						errorCountCheckMineTime = 0
+					}
 				}
+			} else {
+				errorCountCheckMineTime = 0
 			}
 			if err := service.Hotstuff(config, bc); err != nil {
 				log.Println("Hotstuff Error: ", err, bc.Name)
-				if elapsedTime := time.Since(lastNotificationTime_Hotstuff); elapsedTime > time.Hour {
-					notification.SendToTelegram(config, bc, err)
-					notification.AlertSendToSlack(config, bc, err)
-					lastNotificationTime_Hotstuff = time.Now()
+				errorCountHotstuff++
+				if errorCountHotstuff >= 3 {
+					if elapsedTime := time.Since(lastNotificationTime_Hotstuff); elapsedTime > time.Hour {
+						notification.SendToTelegram(config, bc, err)
+						notification.AlertSendToSlack(config, bc, err)
+						lastNotificationTime_Hotstuff = time.Now()
+						errorCountHotstuff = 0
+					}
 				}
+			} else {
+				errorCountHotstuff = 0
 			}
 		})
 		c.AddFunc("@every 1h", func() {

@@ -13,9 +13,9 @@ func Hotstuff(config *types.Config, bc *types.Blockchain) error {
 	}
 
 	log.Println("Check Hotstuff Parameters on", bc.Name)
-	if err := masternode(config, bc); err != nil {
-		return err
-	}
+	//if err := masternode(config, bc); err != nil {
+	//	return err
+	//}
 	if err := confirmBlock(config, bc); err != nil {
 		return err
 	}
@@ -55,7 +55,13 @@ func checkContiguousRounds(config *types.Config, bc *types.Blockchain) *types.Er
 func confirmBlock(config *types.Config, bc *types.Blockchain) *types.ErrorMonitor {
 	latest := bc.LatestFetchedBlockNumber
 	fmt.Println("latest", latest, "Confirmed Rate", int(config.Rules.Confirmed.Rate))
-
+	if latest == 0 {
+		e := &types.ErrorMonitor{
+			Title:   "latest fetch block is 0",
+			Details: "latest fetch block is 0",
+		}
+		return e
+	}
 	// One committed, rest are committed
 	for i := latest; i >= latest-int(config.Rules.Confirmed.Rate); i-- {
 		if bc.BlockCache[i].XDPoSBlockResult.Committed {

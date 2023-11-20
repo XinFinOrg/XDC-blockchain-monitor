@@ -15,6 +15,7 @@ func handleDeploy(c *gin.Context) {
 		Service     string `form:"service"`
 		Version     string `form:"version"`
 		Environment string `form:"environment"`
+		Comment     string `form:"comment"`
 	}
 
 	var params DeployParams
@@ -33,7 +34,7 @@ func handleDeploy(c *gin.Context) {
 				tags += fmt.Sprintf(" <@%s>", v.UserID)
 			}
 		}
-		payload := notification.BuildDeployMessage(params.Service, params.Version, params.Environment, tags, slackConfig.DeployChannel)
+		payload := notification.BuildDeployMessage(params.Service, params.Version, params.Environment, params.Comment, tags, slackConfig.DeployChannel)
 		// Send the notification to Slack
 		err := notification.Send(payload, slackConfig)
 		if err != nil {
