@@ -18,7 +18,7 @@
                 {
                     "name": "Wanwiset Peerapatanapokin",
                     "userid": "U05B2A5GL4D",
-                    "active": false,
+                    "active": true,
                     "environments": [
                         "mainnet",
                         "subnet",
@@ -28,11 +28,10 @@
                 {
                     "name": "fishermanymc",
                     "userid": "U020E8Z9T38",
-                    "active": false,
+                    "active": true,
                     "environments": [
                         "mainnet",
-                        "testnet",
-                        "subnet"
+                        "testnet"
                     ]
                 }
             ]

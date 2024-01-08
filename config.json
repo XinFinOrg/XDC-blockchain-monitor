@@ -12,7 +12,7 @@
             "active": true
         },
         "minetime": {
-            "rate": 0.0001,
+            "rate": 1,
             "active": true
         },
         "contiguousRounds": {
