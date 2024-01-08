@@ -18,7 +18,7 @@
                 {
                     "name": "Wanwiset Peerapatanapokin",
                     "userid": "U05B2A5GL4D",
-                    "active": true,
+                    "active": false,
                     "environments": [
                         "mainnet",
                         "subnet",

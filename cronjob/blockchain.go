@@ -34,52 +34,58 @@ func SetupCron(config *types.Config) *cron.Cron {
 		}
 
 		c.AddFunc("@every 30s", func() {
+			if !bc.Active { // Snooze button will make active inactive
+				return
+			}
 			if err := service.FetchBlocks(config, bc); err != nil {
-				log.Println("Fetch Blocks Error: ", err, bc.Name)
-				errorCountFetchBlocks++
-				if errorCountFetchBlocks >= 3 {
-					if elapsedTime := time.Since(lastNotificationTime_FetchBlocks); elapsedTime > time.Hour {
+				log.Println("Fetch Blocks Error:", err, bc.Name)
+				bc.ErrorCountFetchBlocks++
+				if bc.ErrorCountFetchBlocks >= 3 {
+					if elapsedTime := time.Since(bc.LastNotificationTime_FetchBlocks); elapsedTime > time.Hour {
 						notification.SendToTelegram(config, bc, err)
 						notification.AlertSendToSlack(config, bc, err)
-						lastNotificationTime_FetchBlocks = time.Now()
-						errorCountFetchBlocks = 0
+						bc.LastNotificationTime_FetchBlocks = time.Now()
+						bc.ErrorCountFetchBlocks = 0
 					}
 				}
 			} else {
-				errorCountFetchBlocks = 0
+				bc.ErrorCountFetchBlocks = 0
 			}
 			if err := service.CheckMineTime(config, bc); err != nil {
-				log.Println("CheckMineTime Error: ", err, bc.Name)
-				errorCountCheckMineTime++
-				if errorCountCheckMineTime >= 3 {
-					if elapsedTime := time.Since(lastNotificationTime_CheckMineTime); elapsedTime > time.Hour {
+				log.Println("CheckMineTime Error:", err, bc.Name)
+				bc.ErrorCountCheckMineTime++
+				if bc.ErrorCountCheckMineTime >= 3 {
+					if elapsedTime := time.Since(bc.LastNotificationTime_CheckMineTime); elapsedTime > time.Hour {
 						notification.SendToTelegram(config, bc, err)
 						notification.AlertSendToSlack(config, bc, err)
-						lastNotificationTime_CheckMineTime = time.Now()
-						errorCountCheckMineTime = 0
+						bc.LastNotificationTime_CheckMineTime = time.Now()
+						bc.ErrorCountCheckMineTime = 0
 					}
 				}
 			} else {
-				errorCountCheckMineTime = 0
+				bc.ErrorCountCheckMineTime = 0
 			}
 			if err := service.Hotstuff(config, bc); err != nil {
-				log.Println("Hotstuff Error: ", err, bc.Name)
-				errorCountHotstuff++
-				if errorCountHotstuff >= 3 {
-					if elapsedTime := time.Since(lastNotificationTime_Hotstuff); elapsedTime > time.Hour {
+				log.Println("Hotstuff Error:", err, bc.Name)
+				bc.ErrorCountHotstuff++
+				if bc.ErrorCountHotstuff >= 3 {
+					if elapsedTime := time.Since(bc.LastNotificationTime_Hotstuff); elapsedTime > time.Hour {
 						notification.SendToTelegram(config, bc, err)
 						notification.AlertSendToSlack(config, bc, err)
-						lastNotificationTime_Hotstuff = time.Now()
-						errorCountHotstuff = 0
+						bc.LastNotificationTime_Hotstuff = time.Now()
+						bc.ErrorCountHotstuff = 0
 					}
 				}
 			} else {
-				errorCountHotstuff = 0
+				bc.ErrorCountHotstuff = 0
 			}
 		})
 		c.AddFunc("@every 1h", func() {
+			if !bc.Active { // Snooze button will make active inactive
+				return
+			}
 			if err := service.FetchEpoch(config, bc); err != nil {
-				log.Println("FetchEpoch Error: ", err, bc.Name)
+				log.Println("FetchEpoch Error:", err, bc.Name)
 				notification.SendToTelegram(config, bc, err)
 				notification.AlertSendToSlack(config, bc, err)
 			}

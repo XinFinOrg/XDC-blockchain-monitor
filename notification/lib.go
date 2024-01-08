@@ -40,7 +40,7 @@ func BuildDeployMessage(service, version, environment, comment, tags, channel st
 	return message
 }
 
-func buildAlertMessage(title string, msg string, channel string) SlackMessage {
+func buildAlertMessage(title string, msg string, channel string, blockchain string) SlackMessage {
 	message := SlackMessage{
 		Channel: channel,
 		Text:    title,
@@ -79,11 +79,11 @@ func buildAlertMessage(title string, msg string, channel string) SlackMessage {
 						Type: "button",
 						Text: Text{
 							Type:  "plain_text",
-							Text:  "Ignore",
+							Text:  "Snooze",
 							Emoji: true,
 						},
 						Style: "danger",
-						Value: "ignore_button_click",
+						Value: fmt.Sprintf(blockchain),
 					},
 				},
 			},

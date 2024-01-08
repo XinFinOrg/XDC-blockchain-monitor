@@ -19,7 +19,7 @@ func CheckMineTime(config *types.Config, bc *types.Blockchain) error {
 	latest := bc.LatestFetchedBlockNumber
 	fetchNum := bc.FetchBlockNumber
 
-	log.Println("Check Mine Time on blocks: ", len(blockCache))
+	log.Println("Check Mine Time on blocks:", len(blockCache))
 	if len(blockCache) == 0 {
 		return errors.New("no blocks provided")
 	}

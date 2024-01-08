@@ -54,7 +54,7 @@ func checkContiguousRounds(config *types.Config, bc *types.Blockchain) *types.Er
 
 func confirmBlock(config *types.Config, bc *types.Blockchain) *types.ErrorMonitor {
 	latest := bc.LatestFetchedBlockNumber
-	fmt.Println("latest", latest, "Confirmed Rate", int(config.Rules.Confirmed.Rate))
+	log.Println("latest", latest, "Confirmed Rate", int(config.Rules.Confirmed.Rate))
 	if latest == 0 {
 		e := &types.ErrorMonitor{
 			Title:   "latest fetch block is 0",

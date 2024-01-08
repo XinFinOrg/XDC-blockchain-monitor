@@ -6,6 +6,9 @@ all: build
 build:
 	docker build -t xinfinorg/xdc-blockchain-monitor:latest .
 
+local:
+	go build && ./XDC-blockchain-monitor
+
 deploy:
 	rm -f XDC-blockchain-monitor
 	rsync -av ./ devnet3:~/xdc-blockchain-monitor/ && ssh devnet3 "cd xdc-blockchain-monitor && make"

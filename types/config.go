@@ -1,6 +1,9 @@
 package types
 
-import "sync"
+import (
+	"sync"
+	"time"
+)
 
 type Config struct {
 	Monitors      Monitor       `json:"monitor"`
@@ -37,6 +40,14 @@ type Blockchain struct {
 	Test       string `json:"test" slack:"ignore"`
 	Active     bool   `json:"active" slack:"ignore"`
 	Hotstuff   bool   `json:"hotstuff" slack:"ignore"`
+
+	// Error Count
+	LastNotificationTime_FetchBlocks   time.Time `slack:"ignore"`
+	LastNotificationTime_CheckMineTime time.Time `slack:"ignore"`
+	LastNotificationTime_Hotstuff      time.Time `slack:"ignore"`
+	ErrorCountFetchBlocks              int       `slack:"ignore"`
+	ErrorCountCheckMineTime            int       `slack:"ignore"`
+	ErrorCountHotstuff                 int       `slack:"ignore"`
 
 	BlockCache               map[int]*BlockRPCResult `slack:"ignore"`
 	BlockCacheLock           *sync.Mutex             `slack:"ignore"`

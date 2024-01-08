@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 
 	"github.com/XinFinOrg/XDC-blockchain-monitor/data"
 	"github.com/XinFinOrg/XDC-blockchain-monitor/notification"
@@ -59,11 +60,17 @@ func handleButtonClick(c *gin.Context) {
 
 	// Determine the action based on the button text
 	var actionMessage string
+	currentTime := time.Now()
+	humanReadableTime := currentTime.Format("2006-01-02 15:04:05")
+
 	switch buttonClickedText {
 	case "Acknowledge":
-		actionMessage = "has Acknowledged this issue"
-	case "Ignore":
-		actionMessage = "has Ignored this issue"
+		actionMessage = fmt.Sprintf("has acknowledged this issue at %s", humanReadableTime)
+	case "Resolve":
+		actionMessage = fmt.Sprintf("has resolved this issue at %s", humanReadableTime)
+	case "Snooze":
+		handleSnooze(payload.Actions[0].Value)
+		actionMessage = fmt.Sprintf("snoozes issue for `3` hours at %s", humanReadableTime)
 	default:
 		// Handle other button texts or unknown buttons
 		fmt.Println("Unknown action", buttonClickedText)
@@ -100,6 +107,25 @@ func handleButtonClick(c *gin.Context) {
 		},
 	}
 	updatedBlocks = append(updatedBlocks, resBlock)
+
+	if buttonClickedText == "Acknowledge" {
+		resolveBlock := Block{
+			Type: "actions",
+			Elements: []Element{
+				{
+					Type: "button",
+					Text: Text{
+						Type:  "plain_text",
+						Text:  "Resolve",
+						Emoji: true,
+					},
+					Style: "primary",
+					Value: "resolve",
+				},
+			},
+		}
+		updatedBlocks = append(updatedBlocks, resolveBlock)
+	}
 
 	// Send the updated message back to Slack
 	slackResponse := map[string]interface{}{

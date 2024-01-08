@@ -30,12 +30,20 @@ type Text struct {
 	Emoji bool   `json:"emoji"`
 }
 
+// Block represents a block within the Slack message payload.
 type Block struct {
-	Type     string   `json:"type"`
-	BlockID  string   `json:"block_id"`
-	Text     *Text    `json:"text,omitempty"`
-	Elements []Button `json:"elements,omitempty"`
-	Fields   []Field  `json:"fields,omitempty"`
+	Type     string    `json:"type"`
+	Text     *Text     `json:"text,omitempty"`
+	Fields   []Field   `json:"fields,omitempty"`
+	Elements []Element `json:"elements,omitempty"`
+}
+
+// Element represents an element within an actions block.
+type Element struct {
+	Type  string `json:"type"`
+	Text  Text   `json:"text"`
+	Style string `json:"style"`
+	Value string `json:"value"`
 }
 
 type Field struct {

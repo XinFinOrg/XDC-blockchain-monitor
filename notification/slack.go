@@ -26,22 +26,22 @@ func AlertSendToSlack(config *types.Config, bc *types.Blockchain, err error) {
 	}
 }
 
-func buildSlackMessage(service string, title string, details string, slackConfig types.SlackNotification) error {
+func buildSlackMessage(bcName string, title string, details string, slackConfig types.SlackNotification) error {
 	tags := ""
 	details = details + "\n"
 	for _, v := range slackConfig.Tag {
-		if v.Active && contains(v.Environments, service) {
+		if v.Active && contains(v.Environments, bcName) {
 			tags += fmt.Sprintf(" <@%s>", v.UserID)
 		}
 	}
 
-	// No one wants to sub this service
+	// No one wants to sub this bcName
 	if len(tags) == 0 {
 		return nil
 	}
 	// Create the payload with the attachment.
 
-	payload := buildAlertMessage(title, details+tags, slackConfig.AlertChannel)
+	payload := buildAlertMessage(title, details+tags, slackConfig.AlertChannel, bcName)
 	err := Send(payload, slackConfig)
 	return err
 }
