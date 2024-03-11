@@ -77,8 +77,8 @@
         },
         {
             "name": "mainnet",
-            "rpc1": "https://xinfin.network/",
-            "stats": "https://rpc.xinfin.network/",
+            "rpc1": "https://rpc.xinfin.network/",
+            "stats": "https://xinfin.network/",
             "mineTime": 2,
             "masternode": 10,
             "test": "xxx.sh",
