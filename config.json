@@ -53,6 +53,26 @@
             "masternode": 10,
             "test": "xxx.sh",
             "active": true,
+            "hotstuff": true
+        },
+        {
+            "name": "testnet",
+            "rpc1": "https://devnetstats.apothem.network/testnet",
+            "stats": "https://apothem.network/",
+            "mineTime": 2,
+            "masternode": 10,
+            "test": "xxx.sh",
+            "active": true,
+            "hotstuff": true
+        },
+        {
+            "name": "mainnet",
+            "rpc1": "https://devnetstats.apothem.network/mainnet",
+            "stats": "https://rpc.xinfin.network/",
+            "mineTime": 2,
+            "masternode": 108,
+            "test": "xxx.sh",
+            "active": true,
             "hotstuff": false
         },
         {
@@ -62,7 +82,7 @@
             "mineTime": 2,
             "masternode": 10,
             "test": "xxx.sh",
-            "active": false,
+            "active": true,
             "hotstuff": false
         }
     ]
