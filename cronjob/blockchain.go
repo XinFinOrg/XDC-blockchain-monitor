@@ -33,7 +33,7 @@ func SetupCron(config *types.Config) *cron.Cron {
 			continue
 		}
 
-		c.AddFunc("@every 30s", func() {
+		c.AddFunc("@every 60s", func() {
 			if !bc.Active { // Snooze button will make active inactive
 				return
 			}
@@ -80,7 +80,7 @@ func SetupCron(config *types.Config) *cron.Cron {
 				bc.ErrorCountHotstuff = 0
 			}
 		})
-		c.AddFunc("@every 1h", func() {
+		c.AddFunc("@every 3h", func() {
 			if !bc.Active { // Snooze button will make active inactive
 				return
 			}

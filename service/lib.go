@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	maxAttempts   = 3               // Maximum number of retry attempts
-	retryInterval = 2 * time.Second // Sleep interval between retries
+	maxAttempts   = 5               // Maximum number of retry attempts
+	retryInterval = 5 * time.Second // Sleep interval between retries
 )
 
 func parseHexToInt(hexString string) int {

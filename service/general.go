@@ -15,7 +15,7 @@ func CheckMineTime(config *types.Config, bc *types.Blockchain) error {
 	defer lock.Unlock()
 
 	blockCache := bc.BlockCache
-	targetTime := bc.MineTime
+	mineTime := bc.MineTime
 	latest := bc.LatestFetchedBlockNumber
 	fetchNum := bc.FetchBlockNumber
 
@@ -31,7 +31,7 @@ func CheckMineTime(config *types.Config, bc *types.Blockchain) error {
 
 		// Get the time difference between this block and the previous block
 		timeDiff := currBlockTimestamp - prevBlockTimestamp
-		if timeDiff < targetTime-1 || timeDiff > targetTime+1 {
+		if timeDiff < mineTime-1 || timeDiff > mineTime+1 {
 			violations++
 		}
 	}
@@ -46,7 +46,7 @@ func CheckMineTime(config *types.Config, bc *types.Blockchain) error {
 
 	// Get the time difference between this block and the previous block
 	timeDiff := currBlockTimestamp - prevBlockTimestamp
-	if float64(timeDiff) >= float64(fetchNum*targetTime)*(1+config.Rules.Minetime.Rate) {
+	if float64(timeDiff) >= float64(fetchNum*mineTime)*(1+config.Rules.Minetime.Rate) {
 		return fmt.Errorf("bc mined too slow total time: %d sec, total blocks: %d", timeDiff, fetchNum)
 	}
 

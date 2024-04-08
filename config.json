@@ -12,7 +12,7 @@
             "active": true
         },
         "minetime": {
-            "rate": 1,
+            "rate": 4,
             "active": true
         },
         "contiguousRounds": {
@@ -62,17 +62,17 @@
             "mineTime": 2,
             "masternode": 10,
             "test": "xxx.sh",
-            "active": true,
+            "active": false,
             "hotstuff": true
         },
         {
             "name": "mainnet",
             "rpc1": "https://devnetstats.apothem.network/mainnet",
-            "stats": "https://rpc.xinfin.network/",
+            "stats": "https://xinfin.network/",
             "mineTime": 2,
             "masternode": 108,
             "test": "xxx.sh",
-            "active": true,
+            "active": false,
             "hotstuff": false
         },
         {
