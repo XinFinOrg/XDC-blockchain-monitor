@@ -46,18 +46,38 @@
             "hotstuff": true
         },
         {
-            "name": "testnet",
-            "rpc1": "https://erpc.apothem.network/",
-            "stats": "https://apothem.network/",
+            "name": "devnet",
+            "rpc1": "http://devnet.hashlabs.apothem.network:8545",
+            "stats": "http://devnet.apothem.network/#stats",
             "mineTime": 2,
-            "masternode": 10,
+            "masternode": 108,
             "test": "xxx.sh",
             "active": true,
             "hotstuff": true
         },
         {
             "name": "testnet",
+            "rpc1": "https://erpc.apothem.network/",
+            "stats": "https://apothem.network/",
+            "mineTime": 2,
+            "masternode": 10,
+            "test": "xxx.sh",
+            "active": false,
+            "hotstuff": true
+        },
+        {
+            "name": "testnet",
             "rpc1": "https://devnetstats.apothem.network/testnet",
+            "stats": "https://apothem.network/",
+            "mineTime": 2,
+            "masternode": 10,
+            "test": "xxx.sh",
+            "active": false,
+            "hotstuff": true
+        },
+        {
+            "name": "testnet",
+            "rpc1": "http://testnet.hashlabs.apothem.network:8545",
             "stats": "https://apothem.network/",
             "mineTime": 2,
             "masternode": 10,
