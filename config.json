@@ -102,7 +102,7 @@
             "mineTime": 2,
             "masternode": 10,
             "test": "xxx.sh",
-            "active": true,
+            "active": false,
             "hotstuff": false
         }
     ]
