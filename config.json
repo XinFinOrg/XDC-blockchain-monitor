@@ -37,22 +37,12 @@
         },
         {
             "name": "devnet",
-            "rpc1": "https://devnetstats.apothem.network/devnet",
-            "stats": "http://devnet.apothem.network/#stats",
-            "mineTime": 2,
-            "masternode": 108,
-            "test": "xxx.sh",
-            "active": true,
-            "hotstuff": true
-        },
-        {
-            "name": "devnet",
             "rpc1": "http://devnet.hashlabs.apothem.network:8545",
             "stats": "http://devnet.apothem.network/#stats",
             "mineTime": 2,
             "masternode": 108,
             "test": "xxx.sh",
-            "active": true,
+            "active": false,
             "hotstuff": true
         },
         {
@@ -67,33 +57,23 @@
         },
         {
             "name": "testnet",
-            "rpc1": "https://devnetstats.apothem.network/testnet",
-            "stats": "https://apothem.network/",
-            "mineTime": 2,
-            "masternode": 10,
-            "test": "xxx.sh",
-            "active": false,
-            "hotstuff": true
-        },
-        {
-            "name": "testnet",
             "rpc1": "http://testnet.hashlabs.apothem.network:8545",
             "stats": "https://apothem.network/",
             "mineTime": 2,
             "masternode": 10,
             "test": "xxx.sh",
-            "active": false,
+            "active": true,
             "hotstuff": true
         },
         {
             "name": "mainnet",
-            "rpc1": "https://devnetstats.apothem.network/mainnet",
+            "rpc1": "http://mainnet.hashlabs.apothem.network:8545",
             "stats": "https://xinfin.network/",
             "mineTime": 2,
             "masternode": 108,
             "test": "xxx.sh",
-            "active": false,
-            "hotstuff": false
+            "active": true,
+            "hotstuff": true
         },
         {
             "name": "mainnet",
@@ -102,7 +82,7 @@
             "mineTime": 2,
             "masternode": 10,
             "test": "xxx.sh",
-            "active": false,
+            "active": true,
             "hotstuff": false
         }
     ]
